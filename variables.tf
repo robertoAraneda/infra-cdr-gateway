@@ -15,7 +15,7 @@ variable "tags" {
 
 variable "project" {
   description = "The project name."
-  default     = "conectathon" 
+  default     = "conectathon"
 }
 
 variable "environment" {
@@ -25,8 +25,8 @@ variable "environment" {
 
 variable "default_security_group_id" {
   description = "The default security group ID."
-  type = string
-  default = "sg-1"
+  type        = string
+  default     = "sg-1"
 }
 
 variable "vpc_id" {

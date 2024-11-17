@@ -8,7 +8,7 @@ locals {
 resource "aws_acm_certificate" "keycloak" {
   domain_name       = "auth.onfhir.cl"
   validation_method = "DNS"
-  tags              = merge(
+  tags = merge(
     {
       "Name" = "auth.onfhir.cl"
     },
@@ -82,7 +82,7 @@ module "keycloak_db" {
 
 // create rds monitoring role
 resource "aws_iam_role" "rds_monitoring_role" {
-  name = "rds-monitoring-role"
+  name               = "rds-monitoring-role"
   assume_role_policy = data.aws_iam_policy_document.rds_monitoring_role.json
 }
 
