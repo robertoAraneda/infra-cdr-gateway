@@ -20,6 +20,9 @@
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_ecs_cluster"></a> [ecs\_cluster](#module\_ecs\_cluster) | ./modules/ecs_modules/ecs_cluster | n/a |
+| <a name="module_hapi_db"></a> [hapi\_db](#module\_hapi\_db) | ./modules/rds_modules/rds_db_instance | n/a |
+| <a name="module_hapi_ecs_service"></a> [hapi\_ecs\_service](#module\_hapi\_ecs\_service) | ./modules/ecs_modules/ecs_service | n/a |
+| <a name="module_hapi_task_definition"></a> [hapi\_task\_definition](#module\_hapi\_task\_definition) | ./modules/ecs_modules/ecs_task_definition | n/a |
 | <a name="module_keycloak_db"></a> [keycloak\_db](#module\_keycloak\_db) | ./modules/rds_modules/rds_db_instance | n/a |
 | <a name="module_keycloak_ecs_service"></a> [keycloak\_ecs\_service](#module\_keycloak\_ecs\_service) | ./modules/ecs_modules/ecs_service | n/a |
 | <a name="module_keycloak_task_definition"></a> [keycloak\_task\_definition](#module\_keycloak\_task\_definition) | ./modules/ecs_modules/ecs_task_definition | n/a |
@@ -37,6 +40,7 @@
 |------|------|
 | [aws_acm_certificate.keycloak](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/acm_certificate) | resource |
 | [aws_acm_certificate.kong](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/acm_certificate) | resource |
+| [aws_cloudwatch_log_group.hapi_logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group) | resource |
 | [aws_cloudwatch_log_group.keycloak_logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group) | resource |
 | [aws_cloudwatch_log_group.kong_logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group) | resource |
 | [aws_cloudwatch_log_group.konga_logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group) | resource |
@@ -45,6 +49,7 @@
 | [aws_iam_role_policy_attachment.rds_monitoring_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_vpc_security_group_ingress_rule.kong_ingress](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_security_group_ingress_rule) | resource |
 | [aws_vpc_security_group_ingress_rule.kong_status_ingress](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_security_group_ingress_rule) | resource |
+| [random_password.hapi_master](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password) | resource |
 | [random_password.keycloak_admin](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password) | resource |
 | [random_password.keycloak_master](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password) | resource |
 | [random_password.kong_master](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password) | resource |
@@ -71,6 +76,9 @@
 |------|-------------|
 | <a name="output_alb_keycloak_dns_name"></a> [alb\_keycloak\_dns\_name](#output\_alb\_keycloak\_dns\_name) | The DNS name of the ALB for Keycloak. |
 | <a name="output_ecs_cluster_name"></a> [ecs\_cluster\_name](#output\_ecs\_cluster\_name) | The name of the ECS cluster. |
+| <a name="output_hapi_db_host"></a> [hapi\_db\_host](#output\_hapi\_db\_host) | The host for the HAPI database. |
+| <a name="output_hapi_db_password"></a> [hapi\_db\_password](#output\_hapi\_db\_password) | The password for the HAPI database. |
+| <a name="output_hapi_db_username"></a> [hapi\_db\_username](#output\_hapi\_db\_username) | The username for the HAPI database. |
 | <a name="output_keycloak_admin_password"></a> [keycloak\_admin\_password](#output\_keycloak\_admin\_password) | The admin password for Keycloak. |
 | <a name="output_keycloak_admin_user"></a> [keycloak\_admin\_user](#output\_keycloak\_admin\_user) | The admin user for Keycloak. |
 | <a name="output_keycloak_db_host"></a> [keycloak\_db\_host](#output\_keycloak\_db\_host) | The host for the Keycloak database. |

@@ -66,3 +66,19 @@ output "konga_admin_user" {
   description = "The admin user for Konga."
   value       = "administrator"
 }
+
+output "hapi_db_password" {
+  description = "The password for the HAPI database."
+  value       = random_password.hapi_master.result
+  sensitive = true
+}
+
+output "hapi_db_username" {
+  description = "The username for the HAPI database."
+  value       = module.hapi_db.db_instance_username
+}
+
+output "hapi_db_host" {
+  description = "The host for the HAPI database."
+  value       = module.hapi_db.db_instance_address
+}
