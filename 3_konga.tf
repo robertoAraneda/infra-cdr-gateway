@@ -18,7 +18,7 @@ resource "random_password" "konga_admin" {
 # ACM Certificate
 ################################################################################
 
-resource "aws_acm_certificate" "kong" {
+resource "aws_acm_certificate" "konga" {
   domain_name       = "admingw.onfhir.cl"
   validation_method = "DNS"
   tags              = merge(

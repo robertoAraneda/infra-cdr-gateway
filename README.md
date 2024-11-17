@@ -40,6 +40,7 @@
 |------|------|
 | [aws_acm_certificate.keycloak](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/acm_certificate) | resource |
 | [aws_acm_certificate.kong](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/acm_certificate) | resource |
+| [aws_acm_certificate.konga](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/acm_certificate) | resource |
 | [aws_cloudwatch_log_group.hapi_logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group) | resource |
 | [aws_cloudwatch_log_group.keycloak_logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group) | resource |
 | [aws_cloudwatch_log_group.kong_logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group) | resource |
@@ -90,3 +91,4 @@
 | <a name="output_konga_db_host"></a> [konga\_db\_host](#output\_konga\_db\_host) | The host for the Konga database. |
 | <a name="output_konga_db_password"></a> [konga\_db\_password](#output\_konga\_db\_password) | The password for the Konga database. |
 | <a name="output_konga_db_username"></a> [konga\_db\_username](#output\_konga\_db\_username) | The username for the Konga database. |
+ ~/project/personal/fhir/infra-cdr-gateway/ [master*] 
