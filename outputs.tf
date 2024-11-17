@@ -17,3 +17,19 @@ output "keycloak_admin_user" {
   description = "The admin user for Keycloak."
   value       = "admin"
 }
+
+output "kong_db_password" {
+  description = "The password for the Kong database."
+  value       = random_password.kong_master.result
+  sensitive = true
+}
+
+output "kong_db_username" {
+  description = "The username for the Kong database."
+  value       = module.kong_db.db_instance_username
+}
+
+output "kong_db_host" {
+  description = "The host for the Kong database."
+  value       = module.kong_db.db_instance_address
+}
