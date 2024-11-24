@@ -1,17 +1,17 @@
 output "alb_keycloak_dns_name" {
   description = "The DNS name of the ALB for Keycloak."
-  value       = module.keycloak_ecs_service.alb_dns_name
+  value       = module.keycloak_ecs_service.load_balancer_dns
 }
 
 output "ecs_cluster_name" {
   description = "The name of the ECS cluster."
-  value       = module.ecs_cluster.cluster
+  value       = module.ecs_cluster.cluster_name
 }
 
 output "keycloak_admin_password" {
   description = "The admin password for Keycloak."
   value       = random_password.keycloak_admin.result
-  sensitive = true
+  sensitive   = true
 }
 
 output "keycloak_admin_user" {
@@ -27,7 +27,7 @@ output "keycloak_db_host" {
 output "kong_db_password" {
   description = "The password for the Kong database."
   value       = random_password.kong_master.result
-  sensitive = true
+  sensitive   = true
 }
 
 output "kong_db_username" {
@@ -43,7 +43,7 @@ output "kong_db_host" {
 output "konga_db_password" {
   description = "The password for the Konga database."
   value       = random_password.konga_master.result
-  sensitive = true
+  sensitive   = true
 }
 
 output "konga_db_username" {
@@ -59,7 +59,7 @@ output "konga_db_host" {
 output "konga_admin_password" {
   description = "The admin password for Konga."
   value       = random_password.konga_master.result
-  sensitive = true 
+  sensitive   = true
 }
 
 output "konga_admin_user" {
@@ -70,7 +70,7 @@ output "konga_admin_user" {
 output "hapi_db_password" {
   description = "The password for the HAPI database."
   value       = random_password.hapi_master.result
-  sensitive = true
+  sensitive   = true
 }
 
 output "hapi_db_username" {

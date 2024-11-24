@@ -20,7 +20,7 @@ resource "random_password" "kong_master" {
 resource "aws_acm_certificate" "kong" {
   domain_name       = "gateway.onfhir.cl"
   validation_method = "DNS"
-  tags              = merge(
+  tags = merge(
     {
       "Name" = "gateway.onfhir.cl"
     },
@@ -151,23 +151,13 @@ module "kong_task_definition" {
       value = "debug"
     }
   ]
-  memory  = "2048"
-  cpu     = "512"
+  memory = "2048"
+  cpu    = "512"
 
   log_group_name = "/ecs/${var.project}-${var.environment}/kong"
 
   tags = var.tags
 
-}
-
-// create ingress rule for kong port 8001
-resource "aws_vpc_security_group_ingress_rule" "kong_ingress" {
-  security_group_id = module.kong_ecs_service.aws_security_group_ecs_service_id
-
-  from_port                    = 8001
-  ip_protocol                  = "tcp"
-  to_port                      = 8001
-  referenced_security_group_id = module.konga_ecs_service.aws_security_group_ecs_service_id
 }
 
 // create ingress rule for kong port 8100
@@ -181,7 +171,7 @@ resource "aws_vpc_security_group_ingress_rule" "kong_status_ingress" {
 }
 
 module "kong_ecs_service" {
-  source = "./modules/ecs_modules/ecs_service"
+  source = "./modules/ecs_modules/ecs_service_v2"
 
   //cluster
   cluster_id = module.ecs_cluster.cluster_id
@@ -193,32 +183,58 @@ module "kong_ecs_service" {
   subnet_ids          = var.private_subnet_ids
 
   //load balancer for 8000 port
-  load_balancer = {
-    internal   = false
-    name       = local.kong
-    subnet_ids = var.public_subnet_ids
-    type       = "application"
+  load_balancers = [
+    {
+      internal   = false
+      name       = local.kong
+      subnet_ids = var.public_subnet_ids
+      type       = "application"
 
-    target_group = {
-      name = local.kong
-      port = 8000
-      health_check = {
-        path = "/status"
-        port = 8100
+      target_group = {
+        name = local.kong
+        port = 8000
+        health_check = {
+          path = "/status"
+          port = 8100
+        }
+      }
+      listeners = {
+        http = {
+          enabled     = true
+          action_type = "forward"
+        }
+        https = {
+          enabled = false
+          #action_type     = "forward"
+          #certificate_arn = data.aws_acm_certificate.kong.arn
+        }
+      }
+    },
+    {
+      internal   = false
+      name       = "${local.kong}-admin"
+      subnet_ids = var.public_subnet_ids
+      type       = "application"
+
+      target_group = {
+        name = "${local.kong}-admin"
+        port = 8001
+        health_check = {
+          path = "/status"
+          port = 8100
+        }
+      }
+      listeners = {
+        http = {
+          enabled     = true
+          action_type = "forward"
+        }
+        https = {
+          enabled = false
+        }
       }
     }
-    listeners = {
-      http = {
-        enabled     = true
-        action_type = "forward"
-      }
-      https = {
-        enabled         = true
-        action_type     = "forward"
-        certificate_arn = data.aws_acm_certificate.kong.arn
-      }
-    }
-  }
+  ]
   tags = var.tags
 }
 

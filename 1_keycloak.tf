@@ -217,9 +217,9 @@ module "keycloak_ecs_service" {
         action_type = "forward"
       }
       https = {
-        enabled         = true
-        action_type     = "forward"
-        certificate_arn = data.aws_acm_certificate.keycloak.arn
+        enabled = false
+        #action_type     = "forward"
+        #certificate_arn = data.aws_acm_certificate.keycloak.arn
       }
     }
   }

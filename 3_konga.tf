@@ -21,7 +21,7 @@ resource "random_password" "konga_admin" {
 resource "aws_acm_certificate" "konga" {
   domain_name       = "admingw.onfhir.cl"
   validation_method = "DNS"
-  tags              = merge(
+  tags = merge(
     {
       "Name" = "admingw.onfhir.cl"
     },
@@ -164,8 +164,8 @@ module "konga_ecs_service" {
       name = local.konga
       port = 1337
       health_check = {
-        path = "!/register" #first time
-        #path = "/#!/login"
+        #path = "!/register" #first time
+        path = "/#!/login"
       }
     }
     listeners = {
@@ -174,9 +174,9 @@ module "konga_ecs_service" {
         action_type = "forward"
       }
       https = {
-        enabled         = true
-        action_type     = "forward"
-        certificate_arn = data.aws_acm_certificate.konga.arn
+        enabled = false
+        #action_type     = "forward"
+        #certificate_arn = data.aws_acm_certificate.konga.arn
       }
     }
   }

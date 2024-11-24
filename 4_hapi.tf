@@ -34,7 +34,7 @@ module "hapi_db" {
 
   db_name  = "hapi"
   username = "admin"
-  port     =  "5432" 
+  port     = "5432"
   password = random_password.hapi_master.result
 
   multi_az = false
@@ -55,7 +55,7 @@ module "hapi_db" {
   performance_insights_retention_period = 7
 
   monitoring_interval = 60
-  monitoring_role_arn = aws_iam_role.rds_monitoring_role.ar
+  monitoring_role_arn = aws_iam_role.rds_monitoring_role.arn
 
   tags = merge(
     {
@@ -91,7 +91,7 @@ module "hapi_task_definition" {
     },
     {
       name  = "SERVER_URL"
-      value = "https://${data.aws_acm_certificate.kong.domain}"
+      value = "https://gateway.onfhir.cl"
     }
   ]
   memory = "4096"

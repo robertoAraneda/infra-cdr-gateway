@@ -1,13 +1,13 @@
 variable "region" {
   description = "The region in which the resources will be created."
-  default     = "us-east-2"
+  default     = "us-east-1"
 }
 
 variable "tags" {
   description = "Tags to apply to all resources."
   type        = map(string)
   default = {
-    Project     = "conectathon"
+    Project     = "conectaton-hl7"
     Environment = "dev"
     CreatedBy   = "robaraneda@gmail.com"
   }
@@ -15,7 +15,7 @@ variable "tags" {
 
 variable "project" {
   description = "The project name."
-  default     = "conectathon"
+  default     = "conectaton-hl7"
 }
 
 variable "environment" {
