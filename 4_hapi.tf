@@ -33,14 +33,14 @@ module "hapi_db" {
   max_allocated_storage = 1000
 
   db_name  = "hapi"
-  username = "admin"
+  username = "hapi"
   port     = "5432"
   password = random_password.hapi_master.result
 
   multi_az = false
 
   db_subnet_group_name   = module.subnet_group.db_subnet_group_id
-  vpc_security_group_ids = [var.default_security_group_id]
+  vpc_security_group_ids = [aws_security_group.allow_db_ports.id]
 
   maintenance_window              = "Thu:04:00-Thu:05:00"
   backup_window                   = "02:00-03:00"
@@ -55,7 +55,7 @@ module "hapi_db" {
   performance_insights_retention_period = 7
 
   monitoring_interval = 60
-  monitoring_role_arn = aws_iam_role.rds_monitoring_role.arn
+  monitoring_role_arn = var.monitoring_role_arn
 
   tags = merge(
     {
@@ -131,7 +131,7 @@ module "hapi_ecs_service" {
       name = local.hapi
       port = 8080
       health_check = {
-        path = "/baseR4/actuator/health"
+        path = "/actuator/health"
       }
     }
     listeners = {

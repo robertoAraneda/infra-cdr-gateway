@@ -61,7 +61,7 @@ module "konga_db" {
   multi_az = false
 
   db_subnet_group_name   = module.subnet_group.db_subnet_group_id
-  vpc_security_group_ids = [var.default_security_group_id]
+  vpc_security_group_ids = [aws_security_group.allow_db_ports.id]
 
   maintenance_window              = "Thu:04:00-Thu:05:00"
   backup_window                   = "02:00-03:00"
@@ -164,7 +164,7 @@ module "konga_ecs_service" {
       name = local.konga
       port = 1337
       health_check = {
-        #path = "!/register" #first time
+        #path = "/register" #first time
         path = "/#!/login"
       }
     }
@@ -175,8 +175,8 @@ module "konga_ecs_service" {
       }
       https = {
         enabled = false
-        #action_type     = "forward"
-        #certificate_arn = data.aws_acm_certificate.konga.arn
+        action_type     = "forward"
+        certificate_arn = aws_acm_certificate.konga.arn
       }
     }
   }

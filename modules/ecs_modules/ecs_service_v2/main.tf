@@ -14,7 +14,7 @@ resource "aws_security_group" "load_balancer" {
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow_http" {
-  for_each = { for lb in var.load_balancers : lb.name => lb if lb.listeners.http.enabled }
+  #for_each = { for lb in var.load_balancers : lb.name => lb if lb.listeners.http.enabled }
 
   security_group_id = aws_security_group.load_balancer.id
 
@@ -25,7 +25,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_http" {
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow_https" {
-  for_each = { for lb in var.load_balancers : lb.name => lb if lb.listeners.https.enabled }
+  #for_each = { for lb in var.load_balancers : lb.name => lb if lb.listeners.https.enabled }
 
   security_group_id = aws_security_group.load_balancer.id
 
@@ -158,7 +158,7 @@ resource "aws_ecs_service" "this" {
     for_each = { for lb in var.load_balancers : lb.name => lb.target_group }
     content {
       target_group_arn = aws_lb_target_group.this[load_balancer.key].arn
-      container_name   = load_balancer.value.name
+      container_name   = load_balancer.value.container
       container_port   = load_balancer.value.port
     }
   }

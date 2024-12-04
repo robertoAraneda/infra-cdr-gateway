@@ -28,3 +28,32 @@ module "subnet_group" {
     var.tags
   )
 }
+
+resource "aws_security_group" "allow_db_ports" {
+  name        = "${var.project}-${var.environment}-allow-postgres"
+  description = "Allow Postgres traffic"
+  vpc_id      = var.vpc_id
+}
+
+resource "aws_vpc_security_group_ingress_rule" "allow_postgres" {
+  security_group_id = aws_security_group.allow_db_ports.id
+  cidr_ipv4         = "172.16.0.0/16"
+  from_port         = 5432
+  to_port           = 5432
+  ip_protocol       = "tcp"
+}
+
+resource "aws_vpc_security_group_ingress_rule" "allow_mysql" {
+  security_group_id = aws_security_group.allow_db_ports.id
+  cidr_ipv4         = "172.16.0.0/16"
+  from_port         = 3306
+  to_port           = 3306
+  ip_protocol       = "tcp"
+}
+
+resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4" {
+  security_group_id = aws_security_group.allow_db_ports.id
+  cidr_ipv4         = "0.0.0.0/0"
+  ip_protocol       = "-1" # semantically equivalent to all ports
+}
+

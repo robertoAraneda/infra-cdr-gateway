@@ -9,6 +9,6 @@ output "aws_security_group_load_balancer_id" {
 }
 
 output "load_balancer_dns" {
-  value = { for lb_name, lb in aws_lb.this : lb_name => lb.dns_name }
+  value       = { for lb_name, lb in aws_lb.this : lb_name => lb.dns_name }
   description = "A map of DNS names for each load balancer"
 }

@@ -56,6 +56,7 @@ variable "load_balancers" {
     internal   = bool
     target_group = object({
       name = string
+      container = string
       port = number
       health_check = object({
         path = string

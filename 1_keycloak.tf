@@ -55,7 +55,7 @@ module "keycloak_db" {
   multi_az = false
 
   db_subnet_group_name   = module.subnet_group.db_subnet_group_id
-  vpc_security_group_ids = [var.default_security_group_id]
+  vpc_security_group_ids = [aws_security_group.allow_db_ports.id]
 
   maintenance_window              = "Thu:04:00-Thu:05:00"
   backup_window                   = "02:00-03:00"
@@ -70,7 +70,7 @@ module "keycloak_db" {
   performance_insights_retention_period = 7
 
   monitoring_interval = 60
-  monitoring_role_arn = aws_iam_role.rds_monitoring_role.arn
+  monitoring_role_arn = var.monitoring_role_arn
 
   tags = merge(
     {
@@ -78,32 +78,6 @@ module "keycloak_db" {
     },
     var.tags
   )
-}
-
-// create rds monitoring role
-resource "aws_iam_role" "rds_monitoring_role" {
-  name               = "rds-monitoring-role"
-  assume_role_policy = data.aws_iam_policy_document.rds_monitoring_role.json
-}
-
-resource "aws_iam_role_policy_attachment" "rds_monitoring_role" {
-  role       = aws_iam_role.rds_monitoring_role.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
-}
-
-data "aws_iam_policy_document" "rds_monitoring_role" {
-  statement {
-    actions = [
-      "sts:AssumeRole",
-    ]
-
-    effect = "Allow"
-
-    principals {
-      type        = "Service"
-      identifiers = ["monitoring.rds.amazonaws.com"]
-    }
-  }
 }
 
 
@@ -176,6 +150,9 @@ module "keycloak_task_definition" {
   memory  = "2048"
   cpu     = "512"
 
+  create_execution_role = true
+  create_task_role = true
+
   log_group_name = "/ecs/${var.project}-${var.environment}/keycloak"
 
   tags = var.tags
@@ -196,6 +173,7 @@ module "keycloak_ecs_service" {
   task_definition_arn = module.keycloak_task_definition.task_definition_arn
   name                = local.keycloak
   subnet_ids          = var.private_subnet_ids
+
 
   //load balancer
   load_balancer = {
@@ -218,8 +196,8 @@ module "keycloak_ecs_service" {
       }
       https = {
         enabled = false
-        #action_type     = "forward"
-        #certificate_arn = data.aws_acm_certificate.keycloak.arn
+        action_type     = "forward"
+        certificate_arn =  aws_acm_certificate.keycloak.arn
       }
     }
   }

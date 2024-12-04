@@ -1,6 +1,5 @@
 variable "region" {
   description = "The region in which the resources will be created."
-  default     = "us-east-1"
 }
 
 variable "tags" {
@@ -23,25 +22,22 @@ variable "environment" {
   default     = "dev"
 }
 
-variable "default_security_group_id" {
-  description = "The default security group ID."
-  type        = string
-  default     = "sg-1"
-}
 
 variable "vpc_id" {
-  description = "The VPC ID to deploy resources"
-  default     = "vpc-1" // VPC ID on dev
+  description = "The VPC ID to deploy resources" // VPC ID on dev
 }
 
 variable "private_subnet_ids" {
   description = "The Subnet IDs to deploy resources"
   type        = list(string)
-  default     = ["subnet-1", "subnet-2"] // Subnet IDs on dev
 }
 
 variable "public_subnet_ids" {
   description = "The Subnet IDs to deploy resources"
   type        = list(string)
-  default     = ["subnet-1", "subnet-2"] // Subnet IDs on dev
+}
+
+variable "monitoring_role_arn" {
+  description = "The ARN of the monitoring role"
+  type = string
 }

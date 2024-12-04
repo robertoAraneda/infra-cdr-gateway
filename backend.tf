@@ -5,5 +5,6 @@ terraform {
     region         = "us-east-1"
     encrypt        = true
     dynamodb_table = "conectaton-2025-state"
+    profile = "conectaton-2025"
   }
 }

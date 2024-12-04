@@ -33,6 +33,7 @@ output "kong_db_password" {
 output "kong_db_username" {
   description = "The username for the Kong database."
   value       = module.kong_db.db_instance_username
+  sensitive = true
 }
 
 output "kong_db_host" {
@@ -49,6 +50,7 @@ output "konga_db_password" {
 output "konga_db_username" {
   description = "The username for the Konga database."
   value       = module.konga_db.db_instance_username
+  sensitive = true
 }
 
 output "konga_db_host" {
@@ -76,6 +78,7 @@ output "hapi_db_password" {
 output "hapi_db_username" {
   description = "The username for the HAPI database."
   value       = module.hapi_db.db_instance_username
+  sensitive = true
 }
 
 output "hapi_db_host" {
